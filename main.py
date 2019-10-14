@@ -1,3 +1,17 @@
+print("""
+   _____                             _                            _       _            
+  / ____|                           | |                          | |     | |           
+ | (___   ___  _ __ ___   __ _    __| | ___   _ __  _ __ ___   __| |_   _| |_ ___  ___ 
+  \___ \ / _ \| '_ ` _ \ / _` |  / _` |/ _ \ | '_ \| '__/ _ \ / _` | | | | __/ _ \/ __|
+  ____) | (_) | | | | | | (_| | | (_| |  __/ | |_) | | | (_) | (_| | |_| | || (_) \__ \\
+ |_____/ \___/|_| |_| |_|\__,_|  \__,_|\___| | .__/|_|  \___/ \__,_|\__,_|\__\___/|___/
+                                             | |                                       
+                                             |_|                                       
+""")
+
+
+
+
 def receber_expressao(expressao):
     expressao = expressao.split("+")
     return expressao
@@ -53,45 +67,80 @@ def comletar_expressao(expressao_split, variaveis):
                 porta_nova.append("{}.~{}".format(porta,variavel))
             porta_antiga = porta_nova
             porta_nova = []
+
         variavel_completar = []
         expressao_completa.extend(porta_antiga)
+
     return expressao_completa
 
 def ordenar_expressao(expressao_completa):
+
     expressao_ordenada = []
     variavel_not = []
+
     for porta_and in expressao_completa:
+
         port = porta_and.replace("~","")
         porta_and = porta_and.split(".")
         port = port.split(".")
         port.sort()
+
         for variavel in porta_and:
             if "~" in variavel:
                 variavel_not.append(variavel.replace("~",""))
+
         for not_variavel in variavel_not:
+
             port[port.index(not_variavel)] = "~"+not_variavel 
+
+        port = ".".join(port)
+        
         expressao_ordenada.append(port)
-        #print(port, variavel_not)
-
-
         variavel_not = []
+
     return expressao_ordenada
 
-def tabela_verdade(expressao_completa_ordenada):
+def tabela_verdade(expressao_completa_ordenada):   
+
     tabela= []
+
     for porta_and in expressao_completa_ordenada:
+
         bits = []
-        for bit in porta_and:
+
+        for bit in porta_and.split("."):
+
             if '~' in bit:
-                bits.append(0)
+                bits.append('0')
             else:
-                bits.append(1)
+                bits.append('1')
         tabela.append(bits)
         
     return tabela
 
+def mostrar_expressao_incompleta(expressao_incompleta):
+    expressao_incompleta = expressao_incompleta.split("+")
+    return " + ".join(expressao_incompleta)
+
+
+def mostrar_variaveis(variaveis):
+    return ",".join(variaveis)
+
+def mostrar_expressao_completa(expressao_completa):
+    return " + ".join(expressao_completa)
+
+def mostra_tabela(tabela):
+    tabela.sort()
+    tabela_verdade = []
+
+    for tab in tabela:
+        tabela_verdade.append("".join(tab))
+
+    return "-".join(tabela_verdade)
+
 def main(args):
-    expressao = "~A.D+B.~C"
+
+    expressao = "A.~B+~A.C"
     expressao_split = receber_expressao(expressao)
 
     variaveis = contar_variaveis(expressao_split) 
@@ -99,11 +148,12 @@ def main(args):
     expressao_completa = comletar_expressao(expressao_split, variaveis)
     expressao_completa_ordenada = ordenar_expressao(expressao_completa)
     tabela = tabela_verdade(expressao_completa_ordenada)
-    print("Expressão incompleta:",expressao)
-    print("Variaveis:", variaveis)
-    print("Expressão completa", expressao_completa)
-    print("Expressão completa e ordenada", expressao_completa_ordenada)
-    print("Tabela verdade", tabela)
+
+    print("Expressão incompleta:",mostrar_expressao_incompleta(expressao))
+    print("Variaveis:", mostrar_variaveis(variaveis))
+    print("Expressão completa:", mostrar_expressao_completa(expressao_completa))
+    print("Expressão completa e ordenada:", mostrar_expressao_completa(expressao_completa_ordenada))
+    print("Tabela verdade:", mostra_tabela(tabela))
 
 
 
