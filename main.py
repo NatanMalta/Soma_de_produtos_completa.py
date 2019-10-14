@@ -9,10 +9,6 @@ print("""
                                              |_|                                       
 """)
 
-
-
-
-
 def receber_expressao(expressao):
     expressao = expressao.split("+")
     return expressao
