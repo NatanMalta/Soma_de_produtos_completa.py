@@ -28,9 +28,8 @@ def contar_variaveis(expressao_split):
         for variavel in porta_and:
             if not( variavel in variaveis ):
                 variaveis.append(variavel)
-    
+    variaveis.sort()
     return variaveis
-
 
 def verif_expressao_completa_incompleta(expressao_split, variaveis):
     numero_variaveis = len(variaveis)
@@ -46,7 +45,7 @@ def verif_expressao_completa_incompleta(expressao_split, variaveis):
     else:
         return False
 
-def comletar_expressao(expressao_split, variaveis):
+def completar_expressao(expressao_split, variaveis):
     variavel_completar = []
     porta_antiga = []
     porta_nova = []
@@ -123,14 +122,13 @@ def mostrar_expressao_incompleta(expressao_incompleta):
     expressao_incompleta = expressao_incompleta.split("+")
     return " + ".join(expressao_incompleta)
 
-
 def mostrar_variaveis(variaveis):
     return ",".join(variaveis)
 
 def mostrar_expressao_completa(expressao_completa):
     return " + ".join(expressao_completa)
 
-def mostra_tabela(tabela,variaveis):
+def mostrar_tabela(tabela,variaveis):
     print("Tabela verdade:")
     tabela.sort()
     tabela_verdade = []
@@ -153,7 +151,13 @@ def mostra_tabela(tabela,variaveis):
 
 def main(args):
 
-    expressao = "A+B.~C"
+    """if len(args) > 1:
+        expressao = args[1]
+    else:
+        expressao = input("Soma de produtos: ")
+"""
+    expressao = "A.B+~C.D"  
+
     expressao_split = receber_expressao(expressao)
 
     
@@ -161,7 +165,7 @@ def main(args):
 
     variaveis = contar_variaveis(expressao_split) 
 
-    expressao_completa = comletar_expressao(expressao_split, variaveis)
+    expressao_completa = completar_expressao(expressao_split, variaveis)
     expressao_completa_ordenada = ordenar_expressao(expressao_completa)
     tabela = tabela_verdade(expressao_completa_ordenada)
 
@@ -170,7 +174,7 @@ def main(args):
     print("Expressão completa:", mostrar_expressao_completa(expressao_completa))
     print("Expressão completa e ordenada:", mostrar_expressao_completa(expressao_completa_ordenada))
     
-    mostra_tabela(tabela,variaveis)
+    mostrar_tabela(tabela,variaveis)
 
 
 
