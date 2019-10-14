@@ -12,6 +12,7 @@ print("""
 
 
 
+
 def receber_expressao(expressao):
     expressao = expressao.split("+")
     return expressao
@@ -129,19 +130,34 @@ def mostrar_variaveis(variaveis):
 def mostrar_expressao_completa(expressao_completa):
     return " + ".join(expressao_completa)
 
-def mostra_tabela(tabela):
+def mostra_tabela(tabela,variaveis):
+    print("Tabela verdade:")
     tabela.sort()
     tabela_verdade = []
 
+    for variavel in variaveis:
+        
+        print("|{}".format(variavel),end="")
+
+
+    #qubrar linha
+    print("|S|")
+
     for tab in tabela:
-        tabela_verdade.append("".join(tab))
+        
+        for ta in tab:
+            print("|{}".format(ta),end="")
+        print("|1|")
 
     return "-".join(tabela_verdade)
 
 def main(args):
 
-    expressao = "A.~B+~A.C"
+    expressao = "A+B.~C"
     expressao_split = receber_expressao(expressao)
+
+    
+
 
     variaveis = contar_variaveis(expressao_split) 
 
@@ -153,7 +169,8 @@ def main(args):
     print("Variaveis:", mostrar_variaveis(variaveis))
     print("Expressão completa:", mostrar_expressao_completa(expressao_completa))
     print("Expressão completa e ordenada:", mostrar_expressao_completa(expressao_completa_ordenada))
-    print("Tabela verdade:", mostra_tabela(tabela))
+    
+    mostra_tabela(tabela,variaveis)
 
 
 
