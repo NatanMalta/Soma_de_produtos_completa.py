@@ -110,10 +110,13 @@ def tabela_verdade(expressao_completa_ordenada):
                 bits.append('0')
             else:
                 bits.append('1')
-        tabela.append(bits)
+        if not(bits in tabela):
+
+            tabela.append(bits)
         
     return tabela
 
+#saida formatada
 def mostrar_expressao_incompleta(expressao_incompleta):
     expressao_incompleta = expressao_incompleta.split("+")
     return " + ".join(expressao_incompleta)
